@@ -21,7 +21,19 @@ async function scrappApi(url) {
   return entities;
 }
 
+function initializeDataFolder(folderName) {
+  try {
+    if (!fs.existsSync(folderName)) {
+      fs.mkdirSync(folderName);
+    }
+  } catch (err) {
+    console.error(err);
+  }
+}
+
 async function start() {
+  initializeDataFolder("data");
+
   const characters = await scrappApi(urls[0]);
   fs.writeFile(
     "./data/characters.json",
